@@ -22,3 +22,15 @@ function change(item, index){
 
 options.forEach(change)
 
+function getpro(question, code, aspas) {
+    let text = prompt(question)
+    if(text != null){
+        if(aspas){text = '"' + text + '"';}
+        change(code.replace("??",text));
+    }
+}
+
+function change(code) {
+    $('#cmd').val(code);
+}
+
