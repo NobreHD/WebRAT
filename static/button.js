@@ -11,26 +11,28 @@ const options = [
     ["Mostrar Mensagem", "getpro('Mensagem:','!MB ??', false);", "btn-dark"],
     ["Digitar Mensagem", "getpro('Mensagem:','!TT ??', false);", "btn-dark"]
 ]
-const button = "<div class=\"col col-lg-2 col-6\" style=\"margin: 10px 0px\"><button class=\"btn «»\" onclick=\"»«\" style=\"width: 100%; height: 100%\" type=\"button\">$$</button></div>"
+const button = "<div class=\"col col-lg-2 col-6\" style=\"margin: 10px 0\"><button class=\"btn «»\" onclick=\"»«\" style=\"width: 100%; height: 100%\" type=\"button\">$$</button></div>"
 
-function change(item, index){
+function addButton(item, index) {
     let child = button.replace("«»", item[2]);
     child = child.replace("»«", item[1]);
     child = child.replace("$$", item[0]);
     $("#button-stop").append(child)
 }
 
-options.forEach(change)
-
 function getpro(question, code, aspas) {
     let text = prompt(question)
-    if(text != null){
-        if(aspas){text = '"' + text + '"';}
-        change(code.replace("??",text));
+    if (text != null) {
+        if (aspas) {
+            text = '"' + text + '"';
+        }
+        change(code.replace("??", text));
     }
 }
 
 function change(code) {
     $('#cmd').val(code);
 }
+
+options.forEach(addButton)
 
