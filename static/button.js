@@ -11,13 +11,12 @@ const options = [
     ["Mostrar Mensagem", "getpro('Mensagem:','!MB ??', false);", "btn-dark"],
     ["Digitar Mensagem", "getpro('Mensagem:','!TT ??', false);", "btn-dark"]
 ]
-const button = "<div class=\"col col-lg-2 col-6\" style=\"margin: 10px 0\"><button class=\"btn «»\" onclick=\"»«\" style=\"width: 100%; height: 100%\" type=\"button\">$$</button></div>"
 
 function addButton(item, index) {
-    let child = button.replace("«»", item[2]);
-    child = child.replace("»«", item[1]);
-    child = child.replace("$$", item[0]);
-    $("#button-stop").append(child)
+    let button = `<div class=\"col col-lg-2 col-6\" style=\"margin: 10px 0\">
+        <button class=\"btn ${item[2]}\" onclick=\"${item[1]}\" style=\"width: 100%; height: 100%\" type=\"button\">${item[0]}</button>
+    </div>`
+    $("#button-stop").append(button)
 }
 
 function getpro(question, code, aspas) {
