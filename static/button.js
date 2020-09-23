@@ -9,7 +9,8 @@ const options = [
     ["Lista de Programas Abertos", "change('!CM tasklist');", "btn-secondary"],
     ["Encerrar Programa", "getpro('PID do Programa:','!CM taskkill /PID ?? /f', false);", "btn-dark"],
     ["Mostrar Mensagem", "getpro('Mensagem:','!MB ??', false);", "btn-dark"],
-    ["Digitar Mensagem", "getpro('Mensagem:','!TT ??', false);", "btn-dark"]
+    ["Digitar Mensagem", "getpro('Mensagem:','!TT ??', false);", "btn-dark"],
+    ["Combinação de Teclas", "getpro('Combinação (Separador: +):','!TC ??', false);", "btn-dark"]
 ]
 
 function addButton(item, index) {

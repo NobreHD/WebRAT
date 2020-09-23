@@ -4,6 +4,7 @@ import win32ui
 import _thread
 
 from flask import Flask, render_template, redirect, request
+from pyautogui import isValidKey, keyUp, keyDown
 from pynput.keyboard import Controller
 
 app = Flask(__name__)
@@ -21,6 +22,9 @@ class Actions:
             stay += self.__text(text)
         elif actions == 3:
             stay += self.__command(text)
+        elif actions == 4:
+            stay += self.__combo(text)
+        stay += "\n"
 
     @staticmethod
     def __error(info):
@@ -37,7 +41,7 @@ class Actions:
         time.sleep(0.5)
         text = info.replace("!TT ", "")
         keyboard = Controller()
-        keyboard.type(text)
+        keyboard.type(text.strip())
         return "Mensagem Digitada: " + text
 
     @staticmethod
@@ -48,6 +52,22 @@ class Actions:
             return "Atualmente indisponivel"
         else:
             return change(subprocess.getoutput(text))
+
+    @staticmethod
+    def __combo(info):
+        time.sleep(0.5)
+        text = info.replace("!TC ", "")
+        txt = text.split('+')
+        for i in txt:
+            if not isValidKey(i.strip()):
+                return i + " não é valido"
+            else:
+                keyDown(i.strip())
+
+        for i in txt:
+            keyUp(i.strip())
+
+        return "Combo Digitado: " + text
 
 
 def change(text):
@@ -83,6 +103,8 @@ def act():
             _thread.start_new_thread(action.chooser, (command, 2))
         elif "!CM" in command:
             _thread.start_new_thread(action.chooser, (command, 3))
+        elif "!TC" in command:
+            _thread.start_new_thread(action.chooser, (command, 4))
         else:
             _thread.start_new_thread(action.chooser, (command, 0))
         time.sleep(1)
