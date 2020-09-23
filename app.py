@@ -1,6 +1,7 @@
 import subprocess
 import time
 import win32ui
+import _thread
 
 from flask import Flask, render_template, redirect, request
 from pynput.keyboard import Controller
@@ -11,45 +12,42 @@ stay = ""
 
 class Actions:
     def chooser(self, text, actions):
+        global stay
         if actions == 0:
-            self.__error(text)
+            stay += self.__error(text)
         elif actions == 1:
-            self.__message(text)
+            stay += self.__message(text)
         elif actions == 2:
-            self.__text(text)
+            stay += self.__text(text)
         elif actions == 3:
-            self.__command(text)
+            stay += self.__command(text)
 
     @staticmethod
     def __error(info):
-        global stay
-        stay = info + " not available"
+        return info + " not available"
 
     @staticmethod
     def __message(info):
-        global stay
         text = info.replace("!MB ", "")
         win32ui.MessageBox(text, "", 4096)
-        stay = "Mensagem Mostrada: " + text
+        return "Mensagem Mostrada: " + text
 
     @staticmethod
     def __text(info):
         time.sleep(0.5)
-        global stay
         text = info.replace("!TT ", "")
         keyboard = Controller()
         keyboard.type(text)
-        stay = "Mensagem Digitada: " + text
+        return "Mensagem Digitada: " + text
 
     @staticmethod
     def __command(info):
-        global stay
         text = info.replace("!CM ", "")
         deny = ["TREE"]
         if text.upper() in deny:
-            stay = "Atualmente indisponivel"
+            return "Atualmente indisponivel"
         else:
-            stay = change(subprocess.getoutput(text))
+            return change(subprocess.getoutput(text))
 
 
 def change(text):
@@ -75,15 +73,19 @@ def image(file):
 
 @app.route('/action', methods=['POST'])
 def act():
-    info = request.form['console']
-    if "!MB " in info:
-        action.chooser(info, 1)
-    elif "!TT " in info:
-        action.chooser(info, 2)
-    elif "!CM" in info:
-        action.chooser(info, 3)
-    else:
-        action.chooser(info, 0)
+    global stay
+    stay = ""
+    info = request.form['console'].split("&&")
+    for command in info:
+        if "!MB " in command:
+            _thread.start_new_thread(action.chooser, (command, 1))
+        elif "!TT " in command:
+            _thread.start_new_thread(action.chooser, (command, 2))
+        elif "!CM" in command:
+            _thread.start_new_thread(action.chooser, (command, 3))
+        else:
+            _thread.start_new_thread(action.chooser, (command, 0))
+        time.sleep(1)
     return redirect("/", code=302)
 
 
