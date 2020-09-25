@@ -1,14 +1,25 @@
-from cx_Freeze import setup, Executable
+import os
 
-includefiles = ['templates', 'static']
-includes = ['jinja2.ext']
-excludes = ['Tkinter']
+try:
+  import flask
+except ImportError:
+  print("Trying to Install required module: flask\n")
+  os.system('python -m pip install flask')
 
-setup(
-    name='RatW',
-    version='0.1',
-    description='RatWeb',
-    author='HiddenSpot',
-    options={'build_exe': {'excludes': excludes, 'includes': includes, 'include_files': includefiles}},
-    executables=[Executable('app.py')]
-)
+try:
+    import pyautogui
+except ImportError:
+    print("Trying to Install required module: pyautogui\n")
+    os.system('python -m pip install pyautogui')
+
+try:
+    import pynput
+except ImportError:
+    print("Trying to Install required module: pynput\n")
+    os.system('python -m pip install pynput')
+
+try:
+    import win32ui
+except ImportError:
+    print("Trying to Install required module: win32ui\n")
+    os.system('python -m pip install win32ui')
