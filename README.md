@@ -6,7 +6,9 @@ WebRAT is a program with the purpose of controlling a computer on the same local
 
 ```bash
 git push https://github.com/NobreHD/WebRAT.git
+python setup.py
 ```
+
 
 ## Usage
 
