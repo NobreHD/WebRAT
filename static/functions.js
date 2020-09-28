@@ -20,9 +20,4 @@ function change(code) {
     }
 }
 
-// Clear InputBox
-function clear(){
-    $('#cmd').val("")
-}
-
 
