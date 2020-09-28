@@ -1,3 +1,4 @@
 Flask~=1.1.2
 pynput~=1.7.1
 PyAutoGUI~=0.9.50
+pillow>=7.1.0 # not directly required, pinned by Snyk to avoid a vulnerability
