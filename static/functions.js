@@ -19,6 +19,7 @@ function putIn(code) {
     }else{
         input.val(prev + " && " + code);
     }
+    input.focus();
     verify();
 }
 

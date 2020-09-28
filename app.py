@@ -7,7 +7,6 @@ import _thread
 from flask import Flask, render_template, redirect, request
 from pyautogui import isValidKey, keyUp, keyDown
 from pynput.keyboard import Controller
-
 # ---------------------------------------------------------------
 
 app = Flask(__name__)
@@ -60,7 +59,8 @@ class Actions:
         if text.upper() in deny:
             return "Atualmente indisponivel"
         else:
-            return change(subprocess.getoutput(text))
+            out = change(subprocess.getoutput(text))
+            return out
 
     # ------------ Key Pressing ------------
     @staticmethod
@@ -87,7 +87,6 @@ def change(text):
     text = text.replace("ÿ", " ")
     text = text.replace("µ", "Á")
     return text
-
 # ------------------------------------
 
 
@@ -98,7 +97,6 @@ def index():
     html = render_template('index.html', stay=stay)
     stay = ""
     return html
-
 # ---------------------------------------------------
 
 
@@ -106,7 +104,6 @@ def index():
 @app.route('/files/<string:file>')
 def image(file):
     return app.send_static_file(file)
-
 # -------------------------------------
 
 
@@ -129,7 +126,6 @@ def act():
             _thread.start_new_thread(action.chooser, (command, 0))
         time.sleep(1)
     return redirect("/", code=302)
-
 # --------------------------------------------------------------------
 
 
