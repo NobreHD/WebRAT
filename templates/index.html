@@ -19,14 +19,9 @@
         }
 
         #show_help{
-            visibility: hidden;
-            height: 0;
-            margin: 0;
-        }
-
-        #form_hover:hover #show_help{
-            visibility: visible;
+            display: none;
             height: fit-content;
+            width: fit-content;
             margin: 15px;
         }
 
@@ -42,24 +37,24 @@
 </head>
 
 <body>
-    <div style="margin: 10px; background-color: lightgray; padding: 10px 0">
+    <div style="margin: 1%; background-color: lightgray; padding: 10px 0">
         <div class="row" id="button-stop" style="width: 90%;margin: 10px 5%;">
         </div>
-        <div class="row" style="margin: 10px 5%;">
+        <div id="form_hover" class="row" style="margin: 10px 5%;">
             <div class="col">
-                <form id="form_hover" method="POST" action="/action" style="height: 100%;width: 100%;" >
+                <form  method="POST" action="/action" style="height: 100%;width: 100%;" >
                     <div class="row">
                         <div class="col col-6 col-md-2">
                             <h5 style="font-size: 20px;">Comando: </h5>
                         </div>
                         <div class="col col-11 col-md-5 form_cmd">
-                            <input class="form-control" type="text" name="console" id="cmd" name="console">
+                            <input class="form-control" type="text" name="console" id="cmd" name="console" required>
                         </div>
                         <div class="col col-3 col-md-2 col-lg-1 form_cmd">
                             <button class="btn btn-primary" type="submit">Executar</button>
                         </div>
                         <div class="col col-2 col-md-1 form_cmd">
-                            <a class="btn btn-danger" href>Apagar</a>
+                            <a class="btn btn-danger" href id="clear">Apagar</a>
                         </div>
                     </div>
                     <div class="alert alert-primary" style="max-width: fit-content;" id="show_help" role="alert">

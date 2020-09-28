@@ -1,3 +1,4 @@
+let input = $('#cmd')
 
 // Get Input using Prompt
 function getPrompt(question, code, aspas) {
@@ -6,18 +7,32 @@ function getPrompt(question, code, aspas) {
         if (aspas) {
             text = '"' + text + '"';
         }
-        change(code.replace("??", text));
+        putIn(code.replace("??", text));
     }
 }
 
 // Put Instructions Inside InputBox
-function change(code) {
-    let prev = $('#cmd').val();
-    if(prev == ""){
-        $('#cmd').val(code);
+function putIn(code) {
+    let prev = input.val();
+    if(prev === ""){
+        input.val(code);
     }else{
-        $('#cmd').val(prev + " && " + code);
+        input.val(prev + " && " + code);
+    }
+    verify();
+}
+
+function verify(){
+    if(input.val() == "" ) {
+        $("#clear").fadeOut();
+    }else{
+        $("#clear").fadeIn();
     }
 }
 
+$(function(){ $("#clear").hide(); });
+input.keyup(function(){ verify(); });
+
+$("#form_hover").mouseenter(function(){ $("#show_help").stop().slideDown("slow"); });
+$("#form_hover").mouseleave(function(){ $("#show_help").stop().slideUp("slow"); });
 
