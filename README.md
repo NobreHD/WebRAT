@@ -18,6 +18,14 @@ python app.py
 
 To access, go to [IP address]:4747
 
+## Functionalities
+
+- Execute commands
+- Show Message in a MessageBox
+- Type Message and Key Combination
+- Take ScreenShot
+- Record Audio
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

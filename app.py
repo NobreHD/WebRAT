@@ -1,16 +1,23 @@
 # ------------------------- Imports -----------------------------
+import os
 import subprocess
 import time
+from threading import Thread
+
+import sounddevice as sd
 import win32ui
-import _thread
-
-from flask import Flask, render_template, redirect, request
-from pyautogui import isValidKey, keyUp, keyDown
+from flask import Flask, render_template, redirect, request, send_from_directory
+from pyautogui import isValidKey, keyUp, keyDown, screenshot
 from pynput.keyboard import Controller
-# ---------------------------------------------------------------
+from scipy.io.wavfile import write
 
+# ----- Set Variables -----
 app = Flask(__name__)
 stay = ""
+root = app.root_path
+dl = root + "\\output"
+if not os.path.exists(dl):
+    os.makedirs(dl)
 
 
 class Actions:
@@ -28,12 +35,16 @@ class Actions:
             stay += self.__command(text)
         elif actions == 4:
             stay += self.__combo(text)
+        elif actions == 5:
+            stay += self.__print(text)
+        elif actions == 6:
+            stay += self.__record(text)
         stay += "\n"
 
     # --------- Display Error ----------
     @staticmethod
     def __error(info):
-        return info + " not available"
+        return info + ": Instrução não valida"
 
     # ----------- Show Message -------------
     @staticmethod
@@ -79,6 +90,22 @@ class Actions:
 
         return "Combo Digitado: " + text
 
+    # ----- Take PrintScreen -----
+    @staticmethod
+    def __print(info):
+        ss = screenshot()
+        ss.save(dl + "\\ps.png")
+
+    # ---------------------- Record Microphone Audio ------------------------
+    @staticmethod
+    def __record(info):
+        text = info.replace("!RA ", "")
+        seconds = int(text)
+        audio = sd.rec(int(seconds * 44100), samplerate=44100, channels=2)
+        sd.wait()
+        write(dl + "\\output.wav", 44100, audio)
+        return "Audio Gravado durante " + str(seconds) + " segundos"
+
 
 # ----------- Text Changer -----------
 def change(text):
@@ -87,7 +114,6 @@ def change(text):
     text = text.replace("ÿ", " ")
     text = text.replace("µ", "Á")
     return text
-# ------------------------------------
 
 
 # -------------------- Index ------------------------
@@ -97,14 +123,12 @@ def index():
     html = render_template('index.html', stay=stay)
     stay = ""
     return html
-# ---------------------------------------------------
 
 
 # --------- Get Static Files ----------
 @app.route('/files/<string:file>')
 def image(file):
     return app.send_static_file(file)
-# -------------------------------------
 
 
 # ------------------------ Start Actions -----------------------------
@@ -115,18 +139,32 @@ def act():
     info = request.form['console'].split("&&")
     for command in info:
         if "!MB " in command:
-            _thread.start_new_thread(action.chooser, (command, 1))
+            thread = Thread(target=action.chooser, args=(command, 1))
         elif "!TT " in command:
-            _thread.start_new_thread(action.chooser, (command, 2))
+            thread = Thread(target=action.chooser, args=(command, 2))
         elif "!CM" in command:
-            _thread.start_new_thread(action.chooser, (command, 3))
+            thread = Thread(target=action.chooser, args=(command, 3))
         elif "!TC" in command:
-            _thread.start_new_thread(action.chooser, (command, 4))
+            thread = Thread(target=action.chooser, args=(command, 4))
+        elif "!PS" in command:
+            thread = Thread(target=action.chooser, args=(command, 5))
+        elif "!RA" in command:
+            thread = Thread(target=action.chooser, args=(command, 6))
         else:
-            _thread.start_new_thread(action.chooser, (command, 0))
-        time.sleep(1)
+            thread = Thread(target=action.chooser, args=(command, 0))
+        thread.start()
+        thread.join()
     return redirect("/", code=302)
-# --------------------------------------------------------------------
+
+
+# ------------------------------- Download Files -----------------------------------
+@app.route('/download/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    if not os.path.exists(dl + "\\" + filename):
+        global stay
+        stay = filename + " não existe"
+        return redirect("/", code=302)
+    return send_from_directory(directory=dl, filename=filename, as_attachment=True)
 
 
 action = Actions()
