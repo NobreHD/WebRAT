@@ -95,6 +95,7 @@ class Actions:
     def __print(info):
         ss = screenshot()
         ss.save(dl + "\\ps.png")
+        return "PrintScreen Tirada"
 
     # ---------------------- Record Microphone Audio ------------------------
     @staticmethod
