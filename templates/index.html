@@ -34,13 +34,17 @@
             height: 100%;
         }
 
+        .mod-row{
+            width: 90%;
+            margin: 10px 5%;
+        }
+
     </style>
 </head>
 
 <body>
-    <div style="margin: 1%; background-color: lightgray; padding: 10px 0">
-        <div class="row" id="button-stop" style="width: 90%;margin: 10px 5%;">
-        </div>
+    <div  id="main" style="margin: 1%; background-color: lightgray; padding: 10px 0">
+        <div class="row mod-row" id="toggler"></div>
         <div id="form_hover" class="row" style="margin: 10px 5%;">
             <div class="col">
                 <form  method="POST" action="/action" style="height: 100%;width: 100%;" >
@@ -87,4 +91,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <script src="/files/functions.js"></script>
+    <script src="/files/sections.js"></script>
     <script src="/files/buttons.js"></script>
