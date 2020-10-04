@@ -5,12 +5,11 @@ class Section{
         this.text = Text;
     }
     div_toggler(){
-
         $("#toggler").append(`<div class=\"col col-lg-2 col-6 div-button\">
             <button class="btn ${this.style}" type="button" data-toggle="collapse" data-target="#${this.name}"
                     aria-expanded="false" aria-controls="${this.name}"> ${this.text} </button>
         </div>`);
-        $("#form_hover").before(`<div class="row mod-row collapse" id="${this.name}"></div>`);
+        $("#form_hover").before(`<div class="row mod-row collapse" id="${this.name}" style="background-color: gray; border: darkgray 2px solid; border-radius: 10px"></div>`);
     }
 }
 

@@ -1,16 +1,16 @@
 import os
 
 try:
-  import flask
+    import flask
 except ImportError:
-  print("Trying to Install required module: flask\n")
-  os.system('python -m pip install flask')
+    print("Trying to Install required module: Flask\n")
+    os.system('python -m pip install Flask')
 
 try:
     import pyautogui
 except ImportError:
-    print("Trying to Install required module: pyautogui\n")
-    os.system('python -m pip install pyautogui')
+    print("Trying to Install required module: PyAutoGUI\n")
+    os.system('python -m pip install PyAutoGUI')
 
 try:
     import pynput
@@ -23,3 +23,9 @@ try:
 except ImportError:
     print("Trying to Install required module: win32ui\n")
     os.system('python -m pip install win32ui')
+
+try:
+    import cv2
+except ImportError:
+    print("Trying to Install required module: opencv-python\n")
+    os.system('python -m pip install opencv-python')

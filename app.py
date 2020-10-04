@@ -2,6 +2,7 @@
 import os
 import subprocess
 import time
+import cv2
 from threading import Thread
 
 import sounddevice as sd
@@ -39,6 +40,9 @@ class Actions:
             stay += self.__print(text)
         elif actions == 6:
             stay += self.__record(text)
+        elif actions == 7:
+            stay += self.__webcam(text)
+
         stay += "\n"
 
     # --------- Display Error ----------
@@ -107,6 +111,20 @@ class Actions:
         write(dl + "\\output.wav", 44100, audio)
         return "Audio Gravado durante " + str(seconds) + " segundos"
 
+    # --------- Take Photo Using WebCam ---------
+    @staticmethod
+    def __webcam(info):
+        try:
+            camera_port = 0
+            file = dl + "/web.png"
+            camera = cv2.VideoCapture(camera_port)
+            retval, img = camera.read()
+            camera.release()
+            cv2.imwrite(file, img)
+            return "Foto Tirada Com Sucesso"
+        except:
+            return "Ocorreu um erro"
+
 
 # ----------- Text Changer -----------
 def change(text):
@@ -139,18 +157,20 @@ def act():
     stay = ""
     info = request.form['console'].split("&&")
     for command in info:
-        if "!MB " in command:
+        if "!MB " in command.upper():
             thread = Thread(target=action.chooser, args=(command, 1))
-        elif "!TT " in command:
+        elif "!TT " in command.upper():
             thread = Thread(target=action.chooser, args=(command, 2))
-        elif "!CM" in command:
+        elif "!CM" in command.upper():
             thread = Thread(target=action.chooser, args=(command, 3))
-        elif "!TC" in command:
+        elif "!TC" in command.upper():
             thread = Thread(target=action.chooser, args=(command, 4))
-        elif "!PS" in command:
+        elif "!PS" in command.upper():
             thread = Thread(target=action.chooser, args=(command, 5))
-        elif "!RA" in command:
+        elif "!RA" in command.upper():
             thread = Thread(target=action.chooser, args=(command, 6))
+        elif "!WC" in command.upper():
+            thread = Thread(target=action.chooser, args=(command, 7))
         else:
             thread = Thread(target=action.chooser, args=(command, 0))
         thread.start()

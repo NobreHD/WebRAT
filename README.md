@@ -25,6 +25,7 @@ To access, go to [IP address]:4747
 - Type Message and Key Combination
 - Take ScreenShot
 - Record Audio
+- Take Photo Using WebCam
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
