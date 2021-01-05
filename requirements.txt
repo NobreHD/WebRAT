@@ -4,3 +4,4 @@ PyAutoGUI~=0.9.50
 sounddevice~=0.4.1
 scipy~=1.5.2
 opencv-python~=4.4.0.44
+pillow>=8.1.0 # not directly required, pinned by Snyk to avoid a vulnerability
